@@ -1,23 +1,31 @@
-var express = require("express");
-var app = express();
-var port = 3700;
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server),
+    port = 8080;
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "jade");
-app.engine("jade", require("jade").__express);
+server.listen(port);
 
-app.get("/", function(req, res){
-	res.render("index");
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.engine('jade', require('jade').__express);
+
+app.use(express.static(__dirname + '/public'));
+app.use('/styles', express.static(__dirname + '/public/styles'));
+app.use('/scripts', express.static(__dirname + '/public/scripts'));
+app.use('/images', express.static(__dirname + '/public/images'));
+
+app.get('/', function(req, res){
+	res.render('index');
 });
 
-app.use(express.static(__dirname + "/public"));
+io.set('log level', 2);
 
-var io = require("socket.io").listen(app.listen(port));
 console.log("Listening on port " + port);
 
-io.sockets.on("connection", function (socket) {
-	socket.emit("message", { message: "Welcome to the chat young grasshoper..." });
-	socket.on("send", function (data) {
-		io.sockets.emit("message", data);
+io.sockets.on('connection', function (socket) {
+	socket.emit('message', { message: 'Welcome to the chat young grasshoper...' });
+	socket.on('send', function (data) {
+		io.sockets.emit('message', data);
 	});
 });

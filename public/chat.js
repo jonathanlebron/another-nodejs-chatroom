@@ -1,26 +1,39 @@
-window.onload = function() {
+$(document).ready(function() {
+	var messages = [],
+			socket = io.connect('http://localhost:8080'),
+			chat = $('#chat'),
+			username = $('#username'),
+			text = $('#text');
 
-	var messages = [];
-	var socket = io.connect("http://localhost:3700");
-	var field = document.getElementById("field");
-	var sendButton = document.getElementById("sendButton");
-	var chat = document.getElementById("chat");
-
-	socket.on("message", function (data) {
-		if (data.message) {
-			messages.push(data.message);
-			var html = "";
-			for (var i=0; i<messages.length; i++) {
-				html += messages[i] + "<br />";
+	socket.on('message', function (data) {
+		if(data.message) {
+			messages.push(data);
+			var html = '';
+			for(var i=0; i<messages.length; i++) {
+				html += '<b>' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
+				html += messages[i].message + '<br />';
 			}
-			chat.innerHTML = html;
-		} else {
-			console.log("There is a problem: ", data);
-		}
+			chat.html(html);
+		} else
+			console.log("There is a problem:", data);
 	});
 
-	sendButton.onclick = function() {
-		var text = field.value;
-		socket.emit("send", { message: text});
-	};
-}
+	$('#text').on('keydown', function(e){
+		var key = e.which || e.keyCode;
+		if(key == 13)
+			handleMessage();
+	});
+
+	$('#sendButton').on('click', function(){
+		handleMessage();
+	});
+
+	function handleMessage() {
+		if( username.val() == "" )
+			alert("Please type your name!");
+		else {
+			socket.emit('send', { message: text.val(), username: username.val() });
+			text.val('');
+		}
+	}
+});
