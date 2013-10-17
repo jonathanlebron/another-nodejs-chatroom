@@ -1,0 +1,40 @@
+body{ width: 100%; }
+
+h1{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#container{
+    width: 960px;
+    margin: 40px auto;
+}
+
+#chat{
+    margin: 25px auto;
+    border: solid 1px #000;
+    text-align: left;
+}
+
+.message{
+    padding: 15px;
+    height: 25px;
+    border-bottom: solid 1px #DDD;
+}
+
+b.username,p.messageText{
+    display: inline;
+}
+
+#text{
+    padding: 0;
+    height: 35px;
+    width: 805px;
+    font-size: 12px;
+}
+
+button{
+    padding: 0;
+    height: 35px;
+    width: 70px;
+}

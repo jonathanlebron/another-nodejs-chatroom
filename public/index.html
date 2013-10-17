@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<meta charset="utf-8">
+        <title>Small WRLD Chatroom</title>
+
+        <link href="/css/reset.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/css/main.css" media="all" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="container">
+            <h1>Small Wrld Chatroom by JL</h1>
+            <div id="chat"></div>
+            <div class="controls">
+                <input id="text"/>
+                <button id="sendButton">Send</button>
+                <button id="settingsButton">Settings</button>
+            </div>
+        </div>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/js/chat.js"></script>
+    </body>
+</html>
