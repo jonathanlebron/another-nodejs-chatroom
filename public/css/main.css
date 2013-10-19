@@ -5,7 +5,17 @@
     overflow-y: scroll;
 }
 
-.message{
-    padding: 15px;
+.message, .user{
+    padding: 9px 15px;
     border-bottom: 1px solid #DDD;
+}
+
+.self{
+    background-color: #FFFCEF;
+}
+
+.server{
+    padding: 0px inherit;
+    color: grey;
+    font-style: italic;
 }

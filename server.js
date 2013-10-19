@@ -4,7 +4,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     port = process.env.PORT || 8080,
-    users = [],
+    users = ['admin'],
     id = 1;
 
 app.configure(function () {
@@ -17,21 +17,24 @@ app.configure(function () {
 io.set('log level', 2);
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('message', { message: "has joined the chat!" });
+    socket.emit('loadUsers', users);
 
     socket.on('sendMessage', function (data) {
-        socket.emit('message', data);
+        socket.broadcast.emit('message', data);
     });
 
     socket.on('setUsername', function (data) {
-        if (users.indexOf(data) == -1) { // Check if username is taken
-            socket.set('username', data, function(){
-                users.push(data);
-                socket.emit('setUsernameStatus', 'ok');
-                console.log("user " + data + " connected");
+        if (users.indexOf(data.username) == -1) { // Check if username is taken
+            socket.set('username', data.username, function(){
+                users.push(data.username);
+                socket.emit('setUsernameStatus', { codeStatus: 'ok', username: data.username});
+                socket.broadcast.emit('addUser', { username: data.username });
+                socket.broadcast.emit('message', { message: data.username + " has joined the chat!", sender: 'server' });
+                console.log("user " + data.username + " connected");
             });
         } else {
-            socket.emit('setUsernameStatus', 'error') // Send the error
+            socket.emit('setUsernameStatus', { codeStatus: 'error'}); // Send the error
+            console.log("username " + data.username + " already taken!");
         }
     });
 

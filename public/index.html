@@ -10,6 +10,24 @@
     <body>
         <div id="container" class="col-md-12">
             <h1 class="text-center">Small Wrld Chatroom by JL</h1>
+
+            <div id="usernameModal" class="modal fade" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Change Username</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input id="username" type="text" class="form-control" placeholder="Joe Schmoe">
+                            <span id="usernameError" class="label label-danger"></span>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="saveUsername" type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
             <div class="row">
                 <div class="col-md-10">
                     <div class="panel panel-default">
@@ -32,15 +50,16 @@
                         </span>
                     </div><!-- /input-group -->
                 </div><!-- /.col-md-12 -->
+
                 <div class="col-md-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">Users</div>
-                        <table class="table" id="users">
-                        </table>
+                        <div id="users"></div>
                     </div>
                 </div><!-- /.col-md-2 -->
             </div><!-- /.row -->
         </div>
+
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <script type="text/javascript" src="/js/chat.js"></script>

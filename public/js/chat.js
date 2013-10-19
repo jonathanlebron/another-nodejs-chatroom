@@ -1,53 +1,89 @@
 $(document).ready(function() {
-    var messages = [],
-        users = [],
-        socket = io.connect('http://localhost:8080'),
+    var socket = io.connect('http://localhost:8080'),
         chat = $('#chat'),
-        username = "Guest",
-        text = $('#text');
+        text = $('#text'),
+        username = $('#username'),
+        users = $('#users');
 
-
+    $('#usernameModal').modal('show');
 
     socket.on('message', function (data) {
         if(data.message) {
-            messages.push(data);
-            var html = '';
-            for(var i=0; i<messages.length; i++) {
-                html += '<div class="message">'
-                html += '<b class="username">' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
-                html += '<p class="messageText">' + messages[i].message + '</p>';
-                html += '</div>';
-            }
-            chat.html(html);
-            chat.scrollTop(chat[0].scrollHeight);
+            addMessage(data.message, data.username, new Date().toISOString(), data.sender);
         } else
             console.log("There is a problem sending message:", data);
     });
 
+    socket.on('setUsernameStatus', function (data) {
+        if (data.codeStatus == 'ok') {
+            addUser(data.username);
+
+            $('#usernameModal').modal('hide');
+            $('#usernameError').html("");
+        } else {
+            $('#usernameError').html("That username is already taken!");
+        }
+    });
+
     socket.on('addUser', function (data) {
+        if (data.username)
+            addUser(data.username);
+    });
+
+    socket.on('loadUsers', function (data) {
+        if (data){
+            for (var i = 0; i < data.length; i++)
+                addUser(data[i]);
+        }
     });
 
     $('#text').on('keydown', function(e){
         var key = e.which || e.keyCode;
         if(key == 13)
-            handleMessage();
+            sendMessage();
     });
 
     $('#sendButton').on('click', function(){
-        handleMessage();
+        sendMessage();
     });
 
-    $('#settingsButton').on('click', function(){
-    	var newUsername = prompt("Please enter your name", username);
-    	if (newUsername){
-    		username = newUsername;
-    	}
+    $('#saveUsername').on('click', function(){
+    	if ( username.val() ){
+    		socket.emit('setUsername', { username: username.val() });
+            $('#usernameError').html("");
+    	} else {
+            $('#usernameError').html("Can't leave username blank!");
+        }
     });
 
-    function handleMessage() {
-        if ( username && text.val() ){
-            socket.emit('sendMessage', { username: username, message: text.val() });
+    function addMessage(msg, user, date, sender) {
+        var html = "";
+        var classDiv = "message " + sender;
+
+        html += '<div class="'+classDiv+'">';
+        if (user)
+            html += '<b class="username">' + user + ': </b>';
+        html += '<p class="messageText">' + msg + '</p>';
+        html += '</div>';
+
+        chat.append(html);
+        chat.scrollTop(chat[0].scrollHeight);
+    }
+
+    function sendMessage() {
+        if ( text.val() ){
+            socket.emit('sendMessage', { username: username.val(), message: text.val(), sender: '' });
+            addMessage(text.val(), "Me", new Date().toISOString(), "self");
             text.val('');
         }
+    }
+
+    function addUser(username) {
+        var html = '';
+        html += '<div class="user">';
+        html += '<p class="messageText">' + username + '</p>';
+        html += '</div>';
+
+        users.append(html);
     }
 });
