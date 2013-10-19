@@ -1,9 +1,12 @@
 $(document).ready(function() {
     var messages = [],
+        users = [],
         socket = io.connect('http://localhost:8080'),
         chat = $('#chat'),
         username = "Guest",
         text = $('#text');
+
+
 
     socket.on('message', function (data) {
         if(data.message) {
@@ -16,8 +19,12 @@ $(document).ready(function() {
                 html += '</div>';
             }
             chat.html(html);
+            chat.scrollTop(chat[0].scrollHeight);
         } else
-            console.log("There is a problem:", data);
+            console.log("There is a problem sending message:", data);
+    });
+
+    socket.on('addUser', function (data) {
     });
 
     $('#text').on('keydown', function(e){
@@ -31,14 +38,16 @@ $(document).ready(function() {
     });
 
     $('#settingsButton').on('click', function(){
-    	var newUsername = prompt("Please enter your name","Joe Schmoe");
+    	var newUsername = prompt("Please enter your name", username);
     	if (newUsername){
     		username = newUsername;
     	}
     });
 
     function handleMessage() {
-        socket.emit('send', { message: text.val(), username: username });
-        text.val('');
+        if ( username && text.val() ){
+            socket.emit('sendMessage', { username: username, message: text.val() });
+            text.val('');
+        }
     }
 });
