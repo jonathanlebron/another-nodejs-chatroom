@@ -21,6 +21,7 @@ $(document).ready(function() {
 
             $('#usernameModal').modal('hide');
             $('#usernameError').html("");
+            chatMessage.focus();
         } else {
             $('#usernameError').html("That username is already taken!");
         }
