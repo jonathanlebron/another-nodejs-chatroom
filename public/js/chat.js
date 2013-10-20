@@ -1,12 +1,13 @@
 $(document).ready(function() {
     var socket = io.connect('http://localhost:8080'),
         chat = $('#chat'),
-        text = $('#text'),
+        chatMessage = $('#chatMessage'),
         username = $('#username'),
         users = $('#users');
 
     $('#usernameModal').modal('show');
 
+    /* Socket Events */
     socket.on('message', function (data) {
         if(data.message) {
             addMessage(data.message, data.username, new Date().toISOString(), data.sender);
@@ -30,6 +31,11 @@ $(document).ready(function() {
             addUser(data.username);
     });
 
+    socket.on('removeUser', function (data) {
+        if (data.username)
+            removeUser(data.username);
+    });
+
     socket.on('loadUsers', function (data) {
         if (data){
             for (var i = 0; i < data.length; i++)
@@ -37,10 +43,17 @@ $(document).ready(function() {
         }
     });
 
-    $('#text').on('keydown', function(e){
+    /* Button Events */
+    chatMessage.on('keydown', function(e){
         var key = e.which || e.keyCode;
         if(key == 13)
             sendMessage();
+    });
+
+    $('#username').on('keydown', function(e){
+        var key = e.which || e.keyCode;
+        if(key == 13)
+            saveUsername();
     });
 
     $('#sendButton').on('click', function(){
@@ -48,14 +61,10 @@ $(document).ready(function() {
     });
 
     $('#saveUsername').on('click', function(){
-    	if ( username.val() ){
-    		socket.emit('setUsername', { username: username.val() });
-            $('#usernameError').html("");
-    	} else {
-            $('#usernameError').html("Can't leave username blank!");
-        }
+        saveUsername();
     });
 
+    /* Helper Functions */
     function addMessage(msg, user, date, sender) {
         var html = "";
         var classDiv = "message " + sender;
@@ -71,19 +80,32 @@ $(document).ready(function() {
     }
 
     function sendMessage() {
-        if ( text.val() ){
-            socket.emit('sendMessage', { username: username.val(), message: text.val(), sender: '' });
-            addMessage(text.val(), "Me", new Date().toISOString(), "self");
-            text.val('');
+        if ( chatMessage.val() ){
+            socket.emit('sendMessage', { username: username.val(), message: chatMessage.val(), sender: '' });
+            addMessage(chatMessage.val(), "Me", new Date().toISOString(), "self");
+            chatMessage.val('');
         }
     }
 
     function addUser(username) {
         var html = '';
-        html += '<div class="user">';
+        html += '<div class="user" id="'+username+'">';
         html += '<p class="messageText">' + username + '</p>';
         html += '</div>';
 
         users.append(html);
+    }
+
+    function removeUser(username) {
+        $('#'+username).remove();
+    }
+
+    function saveUsername(){
+        if ( username.val() ){
+            socket.emit('setUsername', { username: username.val() });
+            $('#usernameError').html("");
+        } else {
+            $('#usernameError').html("Can't leave username blank!");
+        }
     }
 });

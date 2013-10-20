@@ -4,8 +4,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     port = process.env.PORT || 8080,
-    users = ['admin'],
-    id = 1;
+    users = ['admin'];
 
 app.configure(function () {
     app.set('port', port);
@@ -39,10 +38,14 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function (data) {
-        socket.emit('disconnect', data);
+        socket.get('username', function(err, name) {
+            if (name && ~users.indexOf(name)) {
+                users.splice(users.indexOf(name), 1);
+                socket.broadcast.emit('removeUser', { username: name });
+                socket.broadcast.emit('message', { message: name + " has left the chat!", sender: 'server' });
+            }
+        });
     });
-
-    //id++;
 });
 
 server.listen(app.get('port'), function () {
