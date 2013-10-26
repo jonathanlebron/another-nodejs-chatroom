@@ -4,7 +4,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
     port = process.env.PORT || 8080,
-    users = ['admin'];
+    users = [];
 
 app.configure(function () {
     app.set('port', port);
@@ -15,11 +15,12 @@ app.configure(function () {
 
 io.set('log level', 2);
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function ( socket ) {
     socket.emit('loadUsers', users);
 
-    socket.on('sendMessage', function (data) {
-        socket.broadcast.emit('message', data);
+    socket.on('sendMessage', function ( data ) {
+        socket.broadcast.emit( 'message', data );
+        console.log( data.username + " says: " + data.message);
     });
 
     socket.on('setUsername', function (data) {
@@ -43,6 +44,7 @@ io.sockets.on('connection', function (socket) {
                 users.splice(users.indexOf(name), 1);
                 socket.broadcast.emit('removeUser', { username: name });
                 socket.broadcast.emit('message', { message: name + " has left the chat!", sender: 'server' });
+                console.log("username " + name + " disconnected");
             }
         });
     });
