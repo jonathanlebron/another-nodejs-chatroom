@@ -13,7 +13,11 @@ app.configure(function () {
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
-io.set('log level', 2);
+io.configure(function () {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+  io.set('log level', 2);
+});
 
 io.sockets.on('connection', function ( socket ) {
     socket.emit('loadUsers', users);
