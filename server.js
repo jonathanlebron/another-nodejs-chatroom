@@ -3,19 +3,16 @@ var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server),
-    port = process.env.PORT || 8080,
     users = [];
 
 app.configure(function () {
-    app.set('port', port);
+    app.set('port', process.env.PORT || 5000);
     app.use(express.logger('dev')); /* 'default', 'short', 'tiny', 'dev' */
     app.use(express.bodyParser()),
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
 io.configure(function () {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
   io.set('log level', 2);
 });
 
