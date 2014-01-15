@@ -1,68 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    	<meta charset="utf-8">
-        <title>Small WRLD Chatroom</title>
-
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-    </head>
-    <body>
-        <div id="container" class="col-md-12">
-            <h1 class="text-center">Small Wrld Chatroom by JL</h1>
-
-            <div id="usernameModal" class="modal fade" data-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Change Username</h4>
-                        </div>
-                        <div class="modal-body">
-                            <input id="username" type="text" class="form-control" placeholder="Joe Schmoe">
-                            <span id="usernameError" class="label label-danger"></span>
-                        </div>
-                        <div class="modal-footer">
-                            <button id="saveUsername" type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Chat</div>
-                        <div id="chat"></div>
+<head>
+    <meta charset="utf-8">
+    <title>Small Chatroom</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div id="container" class="col-md-12">
+        <h1 class="text-center">Small Wrld Chatroom by JL</h1>
+        <div id="usernameModal" class="modal fade" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Change Username</h4>
                     </div>
-                    <div class="input-group">
-                        <input id="chatMessage" type="text" class="form-control">
-                        <span class="input-group-btn">
-                            <button id="sendButton" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-send"></span>
-                            </button>
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Change Username</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
-                            </ul>
-                        </span>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-md-12 -->
-
-                <div class="col-md-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Users</div>
-                        <div id="users"></div>
+                    <div class="modal-body">
+                        <input id="username" type="text" class="form-control" placeholder="Joe Schmoe">
+                        <span id="usernameError" class="label label-danger"></span>
                     </div>
-                </div><!-- /.col-md-2 -->
-            </div><!-- /.row -->
-        </div>
+                    <div class="modal-footer">
+                        <button id="saveUsername" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="/js/chat.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-    </body>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Chat</div>
+                    <div id="chat"></div>
+                </div>
+                <div class="input-group">
+                    <input id="chatMessage" type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button id="sendButton" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-send"></span>
+                        </button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Change Username</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
+                        </ul>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-md-12 -->
+
+            <div class="col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Users</div>
+                    <div id="users"></div>
+                </div>
+            </div><!-- /.col-md-2 -->
+        </div><!-- /.row -->
+    </div>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/chat.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
 </html>
