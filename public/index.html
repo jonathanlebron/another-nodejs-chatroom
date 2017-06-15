@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Small Chatroom</title>
-    
+    <title>Another NodeJS Chatroom</title>
+
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
     <div id="container" class="col-md-12">
-        <h1 class="text-center">Small Wrld Chatroom by JL</h1>
+        <h1 class="text-center">Another NodeJS Chatroom by JL</h1>
         <div id="usernameModal" class="modal fade" data-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Change Username</h4>
+                        <h4 class="modal-title">Choose Username</h4>
                     </div>
                     <div class="modal-body">
                         <input id="username" type="text" class="form-control" placeholder="Joe Schmoe">
                         <span id="usernameError" class="label label-danger"></span>
                     </div>
                     <div class="modal-footer">
-                        <button id="saveUsername" type="button" class="btn btn-primary">Save changes</button>
+                        <button id="saveUsername" type="button" class="btn btn-primary">Done</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -39,13 +39,6 @@
                         <button id="sendButton" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-send"></span>
                         </button>
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Change Username</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
-                        </ul>
                     </span>
                 </div><!-- /input-group -->
             </div><!-- /.col-md-12 -->

@@ -38,9 +38,11 @@ $(document).ready(function() {
     });
 
     socket.on('loadUsers', function (data) {
-        if (data){
-            for (var i = 0; i < data.length; i++)
-                addUser(data[i]);
+        console.log(data);
+        if (!(Object.keys(data).length === 0 && data.constructor === Object)){
+            data.forEach(function(username) {
+                addUser(username);
+            });
         }
     });
 
